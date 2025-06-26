@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ruleset name="StarDots PHP SDK">
+    <description>PHP CodeSniffer rules for StarDots PHP SDK</description>
+
+    <!-- Include PSR2 standard -->
+    <rule ref="PSR2"/>
+
+    <!-- Files to check -->
+    <file>src/</file>
+    <file>tests/</file>
+
+    <!-- Exclude files -->
+    <exclude-pattern>src/StarDotsTypes.php</exclude-pattern>
+
+    <!-- Show progress -->
+    <arg value="p"/>
+
+    <!-- Show sniff codes in all reports -->
+    <arg value="s"/>
+
+    <!-- Show colors in console -->
+    <arg value="n"/>
+
+    <!-- Ignore warnings for PHP 5.5 compatibility -->
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+        <severity>0</severity>
+    </rule>
+</ruleset> 

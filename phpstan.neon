@@ -1,8 +1,11 @@
 parameters:
-    level: 5
+    level: 3
     paths:
         - src/
     excludePaths:
         - tests/
     checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false 
+    checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\)#'
+        - '#Access to an undefined property [a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+#' 

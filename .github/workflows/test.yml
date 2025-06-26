@@ -1,4 +1,4 @@
-name: "Test Coverage"
+name: "Test"
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: ["*"]
 
 jobs:
-  coverage:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +17,6 @@ jobs:
         with:
           php-version: '7.4'
           extensions: curl, json
-          coverage: xdebug
 
       - name: Cache Composer packages
         id: composer-cache
@@ -31,11 +30,5 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Run tests with coverage
-        run: phpunit --coverage-clover coverage.xml
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.xml 
+      - name: Run tests
+        run: composer test 

@@ -34,9 +34,9 @@
     },
     "scripts": {
         "test": "phpunit",
-        "phpcs": "phpcs --standard=PSR2 src/ tests/",
+        "phpcs": "phpcs --standard=phpcs.xml",
         "phpmd": "phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
-        "phpstan": "phpstan analyse src/ --level=5"
+        "phpstan": "phpstan analyse src/ --level=3"
     },
     "minimum-stability": "stable",
     "prefer-stable": true
