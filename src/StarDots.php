@@ -76,7 +76,7 @@ class StarDots
      * @return Types\SpaceListResp Response data
      * @throws StarDotsException
      */
-    public function getSpaceList(Types\SpaceListReq $params): Types\SpaceListResp
+    public function getSpaceList(Types\SpaceListReq $params)
     {
         $query = http_build_query([
             'page' => $params->page,
@@ -94,7 +94,7 @@ class StarDots
      * @return Types\CreateSpaceResp Response data
      * @throws StarDotsException
      */
-    public function createSpace(Types\CreateSpaceReq $params): Types\CreateSpaceResp
+    public function createSpace(Types\CreateSpaceReq $params)
     {
         $url = $this->endpoint . '/openapi/space/create';
         $respArr = $this->sendRequest('PUT', $url, [
@@ -111,7 +111,7 @@ class StarDots
      * @return Types\DeleteSpaceResp Response data
      * @throws StarDotsException
      */
-    public function deleteSpace(Types\DeleteSpaceReq $params): Types\DeleteSpaceResp
+    public function deleteSpace(Types\DeleteSpaceReq $params)
     {
         $url = $this->endpoint . '/openapi/space/delete';
         $respArr = $this->sendRequest('DELETE', $url, [
@@ -127,7 +127,7 @@ class StarDots
      * @return Types\ToggleSpaceAccessibilityResp Response data
      * @throws StarDotsException
      */
-    public function toggleSpaceAccessibility(Types\ToggleSpaceAccessibilityReq $params): Types\ToggleSpaceAccessibilityResp
+    public function toggleSpaceAccessibility(Types\ToggleSpaceAccessibilityReq $params)
     {
         $url = $this->endpoint . '/openapi/space/accessibility/toggle';
         $respArr = $this->sendRequest('POST', $url, [
@@ -144,7 +144,7 @@ class StarDots
      * @return Types\SpaceFileListResp Response data
      * @throws StarDotsException
      */
-    public function getSpaceFileList(Types\SpaceFileListReq $params): Types\SpaceFileListResp
+    public function getSpaceFileList(Types\SpaceFileListReq $params)
     {
         $query = http_build_query([
             'page' => $params->page,
@@ -163,7 +163,7 @@ class StarDots
      * @return Types\FileAccessTicketResp Response data
      * @throws StarDotsException
      */
-    public function fileAccessTicket(Types\FileAccessTicketReq $params): Types\FileAccessTicketResp
+    public function fileAccessTicket(Types\FileAccessTicketReq $params)
     {
         $url = $this->endpoint . '/openapi/file/ticket';
         $respArr = $this->sendRequest('POST', $url, [
@@ -180,7 +180,7 @@ class StarDots
      * @return Types\UploadFileResp Response data
      * @throws StarDotsException
      */
-    public function uploadFile(Types\UploadFileReq $params): Types\UploadFileResp
+    public function uploadFile(Types\UploadFileReq $params)
     {
         $url = $this->endpoint . '/openapi/file/upload';
         $respArr = $this->sendMultipartRequest('PUT', $url, [
@@ -198,7 +198,7 @@ class StarDots
      * @return Types\DeleteFileResp Response data
      * @throws StarDotsException
      */
-    public function deleteFile(Types\DeleteFileReq $params): Types\DeleteFileResp
+    public function deleteFile(Types\DeleteFileReq $params)
     {
         $url = $this->endpoint . '/openapi/file/delete';
         $respArr = $this->sendRequest('DELETE', $url, [
@@ -365,7 +365,7 @@ class StarDots
     /**
      * Convert array to type object
      */
-    private function mapToType(array $data, string $type)
+    private function mapToType(array $data, $type)
     {
         $obj = new $type();
         foreach ($data as $k => $v) {

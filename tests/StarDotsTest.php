@@ -4,6 +4,14 @@ namespace StarDots\Tests;
 
 use StarDots\StarDots;
 use StarDots\StarDotsException;
+use StarDots\StarDotsTypes\DeleteSpaceReq;
+use StarDots\StarDotsTypes\SpaceListReq;
+use StarDots\StarDotsTypes\CreateSpaceReq;
+use StarDots\StarDotsTypes\ToggleSpaceAccessibilityReq;
+use StarDots\StarDotsTypes\SpaceFileListReq;
+use StarDots\StarDotsTypes\FileAccessTicketReq;
+use StarDots\StarDotsTypes\UploadFileReq;
+use StarDots\StarDotsTypes\DeleteFileReq;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -37,7 +45,9 @@ class StarDotsTest extends TestCase
     {
         // Clean up test space if it exists
         try {
-            $this->stardots->deleteSpace(['space' => $this->testSpaceName]);
+            $req = new DeleteSpaceReq();
+            $req->space = $this->testSpaceName;
+            $this->stardots->deleteSpace($req);
         } catch (StarDotsException $e) {
             // Ignore cleanup errors
         }
@@ -77,7 +87,8 @@ class StarDotsTest extends TestCase
     public function testGetSpaceListDefault()
     {
         try {
-            $response = $this->stardots->getSpaceList();
+            $req = new SpaceListReq();
+            $response = $this->stardots->getSpaceList($req);
             $this->assertIsArray($response);
             $this->assertArrayHasKey('code', $response);
             $this->assertArrayHasKey('message', $response);
@@ -94,11 +105,10 @@ class StarDotsTest extends TestCase
     public function testGetSpaceListWithParams()
     {
         try {
-            $params = [
-                'page' => 1,
-                'pageSize' => 10
-            ];
-            $response = $this->stardots->getSpaceList($params);
+            $req = new SpaceListReq();
+            $req->page = 1;
+            $req->pageSize = 10;
+            $response = $this->stardots->getSpaceList($req);
             $this->assertIsArray($response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
@@ -112,11 +122,10 @@ class StarDotsTest extends TestCase
     public function testCreateSpace()
     {
         try {
-            $params = [
-                'space' => $this->testSpaceName,
-                'public' => true
-            ];
-            $response = $this->stardots->createSpace($params);
+            $req = new CreateSpaceReq();
+            $req->space = $this->testSpaceName;
+            $req->public = true;
+            $response = $this->stardots->createSpace($req);
             $this->assertIsArray($response);
             $this->assertArrayHasKey('code', $response);
         } catch (StarDotsException $e) {
@@ -131,10 +140,9 @@ class StarDotsTest extends TestCase
     public function testDeleteSpace()
     {
         try {
-            $params = [
-                'space' => $this->testSpaceName
-            ];
-            $response = $this->stardots->deleteSpace($params);
+            $req = new DeleteSpaceReq();
+            $req->space = $this->testSpaceName;
+            $response = $this->stardots->deleteSpace($req);
             $this->assertIsArray($response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
@@ -148,11 +156,10 @@ class StarDotsTest extends TestCase
     public function testToggleSpaceAccessibility()
     {
         try {
-            $params = [
-                'space' => $this->testSpaceName,
-                'public' => false
-            ];
-            $response = $this->stardots->toggleSpaceAccessibility($params);
+            $req = new ToggleSpaceAccessibilityReq();
+            $req->space = $this->testSpaceName;
+            $req->public = false;
+            $response = $this->stardots->toggleSpaceAccessibility($req);
             $this->assertIsArray($response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
@@ -166,12 +173,11 @@ class StarDotsTest extends TestCase
     public function testGetSpaceFileList()
     {
         try {
-            $params = [
-                'page' => 1,
-                'pageSize' => 10,
-                'space' => $this->testSpaceName
-            ];
-            $response = $this->stardots->getSpaceFileList($params);
+            $req = new SpaceFileListReq();
+            $req->page = 1;
+            $req->pageSize = 10;
+            $req->space = $this->testSpaceName;
+            $response = $this->stardots->getSpaceFileList($req);
             $this->assertIsArray($response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
@@ -185,11 +191,10 @@ class StarDotsTest extends TestCase
     public function testFileAccessTicket()
     {
         try {
-            $params = [
-                'space' => $this->testSpaceName,
-                'filename' => 'test-file.txt'
-            ];
-            $response = $this->stardots->fileAccessTicket($params);
+            $req = new FileAccessTicketReq();
+            $req->space = $this->testSpaceName;
+            $req->filename = 'test-file.txt';
+            $response = $this->stardots->fileAccessTicket($req);
             $this->assertIsArray($response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
@@ -203,13 +208,11 @@ class StarDotsTest extends TestCase
     public function testUploadFile()
     {
         try {
-            $testContent = "This is a test file content";
-            $params = [
-                'space' => $this->testSpaceName,
-                'filename' => 'test-file.txt',
-                'fileContent' => $testContent
-            ];
-            $response = $this->stardots->uploadFile($params);
+            $req = new UploadFileReq();
+            $req->space = $this->testSpaceName;
+            $req->filename = 'test-file.txt';
+            $req->fileContent = 'test content';
+            $response = $this->stardots->uploadFile($req);
             $this->assertIsArray($response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
@@ -223,11 +226,10 @@ class StarDotsTest extends TestCase
     public function testDeleteFile()
     {
         try {
-            $params = [
-                'space' => $this->testSpaceName,
-                'filenameList' => ['test-file.txt']
-            ];
-            $response = $this->stardots->deleteFile($params);
+            $req = new DeleteFileReq();
+            $req->space = $this->testSpaceName;
+            $req->filenameList = ['test-file.txt'];
+            $response = $this->stardots->deleteFile($req);
             $this->assertIsArray($response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
@@ -236,12 +238,12 @@ class StarDotsTest extends TestCase
     }
     
     /**
-     * Test SDK constants
+     * Test constants
      */
     public function testConstants()
     {
-        $this->assertEquals('1.0.0', StarDots::SDK_VERSION);
         $this->assertEquals('https://api.stardots.io', StarDots::ENDPOINT);
+        $this->assertEquals('1.0.0', StarDots::SDK_VERSION);
         $this->assertEquals(30, StarDots::DEFAULT_TIMEOUT);
     }
 } 

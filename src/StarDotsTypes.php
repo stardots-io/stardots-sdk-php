@@ -9,15 +9,15 @@ namespace StarDots;
 class CommonResponse
 {
     /** @var int Service response code. */
-    public int $code;
+    public $code;
     /** @var string Message prompt of the operation result. */
-    public string $message;
+    public $message;
     /** @var string A unique number for the request, which can be used for troubleshooting. */
-    public string $requestId;
+    public $requestId;
     /** @var bool Indicates whether the business operation is successful. */
-    public bool $success;
+    public $success;
     /** @var int Server millisecond timestamp. */
-    public int $timestamp;
+    public $timestamp;
     /** @var mixed Business data field. This field can be of any data type. For specific data types, please refer to the corresponding interface. */
     public $data;
 }
@@ -28,9 +28,9 @@ class CommonResponse
 class PaginationReq
 {
     /** @var int Page number, default value is 1. */
-    public int $page = 1;
+    public $page = 1;
     /** @var int The number of entries per page ranges from 1 to 100, and the default value is 20. */
-    public int $pageSize = 20;
+    public $pageSize = 20;
 }
 
 /**
@@ -39,11 +39,11 @@ class PaginationReq
 class PaginationResp
 {
     /** @var int Page number, default value is 1. */
-    public int $page;
+    public $page;
     /** @var int The number of entries per page ranges from 1 to 100, and the default value is 20. */
-    public int $pageSize;
+    public $pageSize;
     /** @var int The total number of entries. */
-    public int $totalCount;
+    public $totalCount;
 }
 
 /**
@@ -57,13 +57,13 @@ class SpaceListReq extends PaginationReq {}
 class SpaceInfo
 {
     /** @var string The name of the space. */
-    public string $name;
+    public $name;
     /** @var bool Whether the accessibility of the space is false. */
-    public bool $public;
+    public $public;
     /** @var int The system timestamp in seconds when the space was created. The time zone is UTC+8. */
-    public int $createdAt;
+    public $createdAt;
     /** @var int The number of files in this space. */
-    public int $fileCount;
+    public $fileCount;
 }
 
 /**
@@ -72,7 +72,7 @@ class SpaceInfo
 class SpaceListResp extends CommonResponse
 {
     /** @var SpaceInfo[] */
-    public array $data = [];
+    public $data = [];
 }
 
 /**
@@ -81,9 +81,9 @@ class SpaceListResp extends CommonResponse
 class CreateSpaceReq
 {
     /** @var string The name of the space. It can only be a combination of letters or numbers, and the length is 4 to 15 characters. */
-    public string $space;
+    public $space;
     /** @var bool Specifies whether the space is publicly accessible. The default value is false. */
-    public bool $public = false;
+    public $public = false;
 }
 
 /**
@@ -97,7 +97,7 @@ class CreateSpaceResp extends CommonResponse {}
 class DeleteSpaceReq
 {
     /** @var string The name of the space. It can only be a combination of letters or numbers, and the length is 4 to 15 characters. */
-    public string $space;
+    public $space;
 }
 
 /**
@@ -111,9 +111,9 @@ class DeleteSpaceResp extends CommonResponse {}
 class ToggleSpaceAccessibilityReq
 {
     /** @var string The name of the space. It can only be a combination of letters or numbers, and the length is 4 to 15 characters. */
-    public string $space;
+    public $space;
     /** @var bool Specifies whether the space is publicly accessible. The default value is false. */
-    public bool $public;
+    public $public;
 }
 
 /**
@@ -127,7 +127,7 @@ class ToggleSpaceAccessibilityResp extends CommonResponse {}
 class SpaceFileListReq extends PaginationReq
 {
     /** @var string The name of the space. It can only be a combination of letters or numbers, and the length is 4 to 15 characters. */
-    public string $space;
+    public $space;
 }
 
 /**
@@ -136,15 +136,15 @@ class SpaceFileListReq extends PaginationReq
 class FileInfo
 {
     /** @var string The name of the file. */
-    public string $name;
+    public $name;
     /** @var int The size of the file in bytes. */
-    public int $byteSize;
+    public $byteSize;
     /** @var string File size, formatted for readability. */
-    public string $size;
+    public $size;
     /** @var int The timestamp of the file upload in seconds. The time zone is UTC+8. */
-    public int $uploadedAt;
+    public $uploadedAt;
     /** @var string The access address of the file. Note that if the accessibility of the space is private, this field value will carry the access ticket, which is valid for 20 seconds. */
-    public string $url;
+    public $url;
 }
 
 /**
@@ -153,7 +153,7 @@ class FileInfo
 class SpaceFileListResp extends CommonResponse
 {
     /** @var array{list: FileInfo[]} */
-    public array $data = ['list' => []];
+    public $data = array('list' => array());
 }
 
 /**
@@ -162,9 +162,9 @@ class SpaceFileListResp extends CommonResponse
 class FileAccessTicketReq
 {
     /** @var string The name of the file. */
-    public string $filename;
+    public $filename;
     /** @var string The name of the space. It can only be a combination of letters or numbers, and the length is 4 to 15 characters. */
-    public string $space;
+    public $space;
 }
 
 /**
@@ -173,7 +173,7 @@ class FileAccessTicketReq
 class FileAccessTicketResp extends CommonResponse
 {
     /** @var array{ticket: string} */
-    public array $data = ['ticket' => ''];
+    public $data = array('ticket' => '');
 }
 
 /**
@@ -182,9 +182,9 @@ class FileAccessTicketResp extends CommonResponse
 class UploadFileReq
 {
     /** @var string The name of the file. */
-    public string $filename;
+    public $filename;
     /** @var string The name of the space. It can only be a combination of letters or numbers, and the length is 4 to 15 characters. */
-    public string $space;
+    public $space;
     /** @var string|resource The file bytes content */
     public $fileContent;
 }
@@ -195,11 +195,11 @@ class UploadFileReq
 class UploadFileResp extends CommonResponse
 {
     /** @var array{space: string, filename: string, url: string} */
-    public array $data = [
+    public $data = array(
         'space' => '',
         'filename' => '',
         'url' => ''
-    ];
+    );
 }
 
 /**
@@ -208,9 +208,9 @@ class UploadFileResp extends CommonResponse
 class DeleteFileReq
 {
     /** @var string[] The name of the space. It can only be a combination of letters or numbers, and the length is 4 to 15 characters. */
-    public array $filenameList = [];
+    public $filenameList = array();
     /** @var string The name of the space. It can only be a combination of letters or numbers, and the length is 4 to 15 characters. */
-    public string $space;
+    public $space;
 }
 
 /**
