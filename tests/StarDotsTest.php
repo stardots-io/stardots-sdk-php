@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * StarDots SDK Test Suite
- * 
+ *
  * Tests for the StarDots PHP SDK
  */
 class StarDotsTest extends TestCase
@@ -25,22 +25,22 @@ class StarDotsTest extends TestCase
      * @var StarDots
      */
     private $stardots;
-    
+
     /**
      * @var string
      */
     private $testSpaceName;
-    
+
     protected function setUp(): void
     {
         // Use test credentials - replace with actual test credentials
         $clientKey = getenv('STARDOTS_CLIENT_KEY') ?: 'test-client-key';
         $clientSecret = getenv('STARDOTS_CLIENT_SECRET') ?: 'test-client-secret';
-        
+
         $this->stardots = new StarDots($clientKey, $clientSecret);
         $this->testSpaceName = 'test-space-' . time();
     }
-    
+
     protected function tearDown(): void
     {
         // Clean up test space if it exists
@@ -52,7 +52,7 @@ class StarDotsTest extends TestCase
             // Ignore cleanup errors
         }
     }
-    
+
     /**
      * Test SDK instantiation
      */
@@ -61,7 +61,7 @@ class StarDotsTest extends TestCase
         $stardots = new StarDots('test-key', 'test-secret');
         $this->assertInstanceOf(StarDots::class, $stardots);
     }
-    
+
     /**
      * Test static create method
      */
@@ -70,7 +70,7 @@ class StarDotsTest extends TestCase
         $stardots = StarDots::create('test-key', 'test-secret');
         $this->assertInstanceOf(StarDots::class, $stardots);
     }
-    
+
     /**
      * Test custom endpoint
      */
@@ -80,7 +80,7 @@ class StarDotsTest extends TestCase
         $stardots = new StarDots('test-key', 'test-secret', $customEndpoint);
         $this->assertInstanceOf(StarDots::class, $stardots);
     }
-    
+
     /**
      * Test get space list with default parameters
      */
@@ -89,7 +89,7 @@ class StarDotsTest extends TestCase
         try {
             $req = new SpaceListReq();
             $response = $this->stardots->getSpaceList($req);
-            $this->assertIsArray($response);
+            $this->assertInternalType('array', $response);
             $this->assertArrayHasKey('code', $response);
             $this->assertArrayHasKey('message', $response);
             $this->assertArrayHasKey('data', $response);
@@ -98,7 +98,7 @@ class StarDotsTest extends TestCase
             $this->assertInstanceOf(StarDotsException::class, $e);
         }
     }
-    
+
     /**
      * Test get space list with custom parameters
      */
@@ -109,13 +109,13 @@ class StarDotsTest extends TestCase
             $req->page = 1;
             $req->pageSize = 10;
             $response = $this->stardots->getSpaceList($req);
-            $this->assertIsArray($response);
+            $this->assertInternalType('array', $response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
             $this->assertInstanceOf(StarDotsException::class, $e);
         }
     }
-    
+
     /**
      * Test create space
      */
@@ -126,14 +126,14 @@ class StarDotsTest extends TestCase
             $req->space = $this->testSpaceName;
             $req->public = true;
             $response = $this->stardots->createSpace($req);
-            $this->assertIsArray($response);
+            $this->assertInternalType('array', $response);
             $this->assertArrayHasKey('code', $response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
             $this->assertInstanceOf(StarDotsException::class, $e);
         }
     }
-    
+
     /**
      * Test delete space
      */
@@ -143,13 +143,13 @@ class StarDotsTest extends TestCase
             $req = new DeleteSpaceReq();
             $req->space = $this->testSpaceName;
             $response = $this->stardots->deleteSpace($req);
-            $this->assertIsArray($response);
+            $this->assertInternalType('array', $response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
             $this->assertInstanceOf(StarDotsException::class, $e);
         }
     }
-    
+
     /**
      * Test toggle space accessibility
      */
@@ -160,13 +160,13 @@ class StarDotsTest extends TestCase
             $req->space = $this->testSpaceName;
             $req->public = false;
             $response = $this->stardots->toggleSpaceAccessibility($req);
-            $this->assertIsArray($response);
+            $this->assertInternalType('array', $response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
             $this->assertInstanceOf(StarDotsException::class, $e);
         }
     }
-    
+
     /**
      * Test get space file list
      */
@@ -178,13 +178,13 @@ class StarDotsTest extends TestCase
             $req->pageSize = 10;
             $req->space = $this->testSpaceName;
             $response = $this->stardots->getSpaceFileList($req);
-            $this->assertIsArray($response);
+            $this->assertInternalType('array', $response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
             $this->assertInstanceOf(StarDotsException::class, $e);
         }
     }
-    
+
     /**
      * Test file access ticket
      */
@@ -195,13 +195,13 @@ class StarDotsTest extends TestCase
             $req->space = $this->testSpaceName;
             $req->filename = 'test-file.txt';
             $response = $this->stardots->fileAccessTicket($req);
-            $this->assertIsArray($response);
+            $this->assertInternalType('array', $response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
             $this->assertInstanceOf(StarDotsException::class, $e);
         }
     }
-    
+
     /**
      * Test upload file
      */
@@ -213,13 +213,13 @@ class StarDotsTest extends TestCase
             $req->filename = 'test-file.txt';
             $req->fileContent = 'test content';
             $response = $this->stardots->uploadFile($req);
-            $this->assertIsArray($response);
+            $this->assertInternalType('array', $response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
             $this->assertInstanceOf(StarDotsException::class, $e);
         }
     }
-    
+
     /**
      * Test delete file
      */
@@ -230,13 +230,13 @@ class StarDotsTest extends TestCase
             $req->space = $this->testSpaceName;
             $req->filenameList = array('test-file.txt');
             $response = $this->stardots->deleteFile($req);
-            $this->assertIsArray($response);
+            $this->assertInternalType('array', $response);
         } catch (StarDotsException $e) {
             // This might fail with test credentials, which is expected
             $this->assertInstanceOf(StarDotsException::class, $e);
         }
     }
-    
+
     /**
      * Test constants
      */
@@ -246,4 +246,4 @@ class StarDotsTest extends TestCase
         $this->assertEquals('1.0.0', StarDots::SDK_VERSION);
         $this->assertEquals(30, StarDots::DEFAULT_TIMEOUT);
     }
-} 
+}

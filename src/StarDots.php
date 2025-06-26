@@ -4,7 +4,7 @@ namespace StarDots;
 
 /**
  * StarDots PHP SDK
- * 
+ *
  * This SDK provides easy access to the StarDots platform APIs.
  * Compatible with PHP 5.5+
  */
@@ -14,35 +14,35 @@ class StarDots
      * SDK Version
      */
     const SDK_VERSION = '1.0.0';
-    
+
     /**
      * Default API endpoint
      */
     const ENDPOINT = 'https://api.stardots.io';
-    
+
     /**
      * Default request timeout in seconds
      */
     const DEFAULT_TIMEOUT = 30;
-    
+
     /**
      * @var string API endpoint
      */
     private $endpoint;
-    
+
     /**
      * @var string Client key
      */
     private $clientKey;
-    
+
     /**
      * @var string Client secret
      */
     private $clientSecret;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param string $clientKey Your client key
      * @param string $clientSecret Your client secret
      * @param string|null $endpoint Optional custom endpoint
@@ -53,10 +53,10 @@ class StarDots
         $this->clientSecret = $clientSecret;
         $this->endpoint = $endpoint ?: self::ENDPOINT;
     }
-    
+
     /**
      * Create a new StarDots instance
-     * 
+     *
      * @param string $clientKey Your client key
      * @param string $clientSecret Your client secret
      * @param string|null $endpoint Optional custom endpoint
@@ -66,10 +66,10 @@ class StarDots
     {
         return new static($clientKey, $clientSecret, $endpoint);
     }
-    
+
     /**
      * Get space list data
-     * 
+     *
      * @param SpaceListReq $params Request parameters
      * @return SpaceListResp Response data
      * @throws StarDotsException
@@ -84,10 +84,10 @@ class StarDots
         $respArr = $this->sendRequest('GET', $url);
         return $this->mapToType($respArr, SpaceListResp::class);
     }
-    
+
     /**
      * Create a new space
-     * 
+     *
      * @param CreateSpaceReq $params Request parameters
      * @return CreateSpaceResp Response data
      * @throws StarDotsException
@@ -101,10 +101,10 @@ class StarDots
         ]);
         return $this->mapToType($respArr, CreateSpaceResp::class);
     }
-    
+
     /**
      * Delete an existing space
-     * 
+     *
      * @param DeleteSpaceReq $params Request parameters
      * @return DeleteSpaceResp Response data
      * @throws StarDotsException
@@ -117,10 +117,10 @@ class StarDots
         ]);
         return $this->mapToType($respArr, DeleteSpaceResp::class);
     }
-    
+
     /**
      * Toggle the accessibility of a space
-     * 
+     *
      * @param ToggleSpaceAccessibilityReq $params Request parameters
      * @return ToggleSpaceAccessibilityResp Response data
      * @throws StarDotsException
@@ -134,10 +134,10 @@ class StarDots
         ]);
         return $this->mapToType($respArr, ToggleSpaceAccessibilityResp::class);
     }
-    
+
     /**
      * Get the list of files in the space
-     * 
+     *
      * @param SpaceFileListReq $params Request parameters
      * @return SpaceFileListResp Response data
      * @throws StarDotsException
@@ -153,10 +153,10 @@ class StarDots
         $respArr = $this->sendRequest('GET', $url);
         return $this->mapToType($respArr, SpaceFileListResp::class);
     }
-    
+
     /**
      * Get the access ticket for the file
-     * 
+     *
      * @param FileAccessTicketReq $params Request parameters
      * @return FileAccessTicketResp Response data
      * @throws StarDotsException
@@ -170,10 +170,10 @@ class StarDots
         ]);
         return $this->mapToType($respArr, FileAccessTicketResp::class);
     }
-    
+
     /**
      * Upload file to the space
-     * 
+     *
      * @param UploadFileReq $params Request parameters
      * @return UploadFileResp Response data
      * @throws StarDotsException
@@ -188,10 +188,10 @@ class StarDots
         ]);
         return $this->mapToType($respArr, UploadFileResp::class);
     }
-    
+
     /**
      * Delete files in the space
-     * 
+     *
      * @param DeleteFileReq $params Request parameters
      * @return DeleteFileResp Response data
      * @throws StarDotsException
@@ -205,10 +205,10 @@ class StarDots
         ]);
         return $this->mapToType($respArr, DeleteFileResp::class);
     }
-    
+
     /**
      * Send HTTP request
-     * 
+     *
      * @param string $method HTTP method
      * @param string $url Request URL
      * @param array|null $data Request data
@@ -218,45 +218,45 @@ class StarDots
     private function sendRequest($method, $url, $data = null)
     {
         $headers = $this->makeHeaders();
-        
+
         if ($data !== null) {
             $headers['Content-Type'] = 'application/json; charset=utf-8';
         }
-        
+
         $ch = curl_init();
-        
+
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, self::DEFAULT_TIMEOUT);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-        
+
         if ($data !== null) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         }
-        
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->formatHeaders($headers));
-        
+
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
-        
+
         curl_close($ch);
-        
+
         if ($error) {
             throw new StarDotsException('cURL error: ' . $error);
         }
-        
+
         $responseData = json_decode($response, true);
         if ($responseData === null) {
             throw new StarDotsException('Invalid JSON response: ' . $response);
         }
-        
+
         return $responseData;
     }
-    
+
     /**
      * Send multipart form request for file upload
-     * 
+     *
      * @param string $method HTTP method
      * @param string $url Request URL
      * @param array $params Request parameters
@@ -266,12 +266,12 @@ class StarDots
     private function sendMultipartRequest($method, $url, array $params)
     {
         $headers = $this->makeHeaders();
-        
+
         $boundary = '----WebKitFormBoundary' . uniqid();
         $headers['Content-Type'] = 'multipart/form-data; boundary=' . $boundary;
-        
+
         $postData = '';
-        
+
         // Add file
         if (isset($params['fileContent']) && isset($params['filename'])) {
             $postData .= "--{$boundary}\r\n";
@@ -279,46 +279,46 @@ class StarDots
             $postData .= "Content-Type: application/octet-stream\r\n\r\n";
             $postData .= $params['fileContent'] . "\r\n";
         }
-        
+
         // Add space parameter
         if (isset($params['space'])) {
             $postData .= "--{$boundary}\r\n";
             $postData .= "Content-Disposition: form-data; name=\"space\"\r\n\r\n";
             $postData .= $params['space'] . "\r\n";
         }
-        
+
         $postData .= "--{$boundary}--\r\n";
-        
+
         $ch = curl_init();
-        
+
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, self::DEFAULT_TIMEOUT);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->formatHeaders($headers));
-        
+
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
-        
+
         curl_close($ch);
-        
+
         if ($error) {
             throw new StarDotsException('cURL error: ' . $error);
         }
-        
+
         $responseData = json_decode($response, true);
         if ($responseData === null) {
             throw new StarDotsException('Invalid JSON response: ' . $response);
         }
-        
+
         return $responseData;
     }
-    
+
     /**
      * Generate authentication headers
-     * 
+     *
      * @return array Headers array
      */
     private function makeHeaders()
@@ -327,7 +327,7 @@ class StarDots
         $nonce = $timestamp * 1000 + rand(10000, 19999);
         $needSignStr = $timestamp . '|' . $this->clientSecret . '|' . $nonce;
         $sign = strtoupper(md5($needSignStr));
-        
+
         $extra = json_encode([
             'sdk' => 'true',
             'language' => 'php',
@@ -335,7 +335,7 @@ class StarDots
             'os' => PHP_OS,
             'arch' => php_uname('m')
         ]);
-        
+
         return [
             'x-stardots-timestamp' => (string)$timestamp,
             'x-stardots-nonce' => (string)$nonce,
@@ -344,10 +344,10 @@ class StarDots
             'x-stardots-extra' => $extra
         ];
     }
-    
+
     /**
      * Format headers for cURL
-     * 
+     *
      * @param array $headers Headers array
      * @return array Formatted headers
      */
@@ -373,4 +373,4 @@ class StarDots
         }
         return $obj;
     }
-} 
+}

@@ -216,4 +216,4 @@ class DeleteFileReq
 /**
  * Delete file response data structure
  */
-class DeleteFileResp extends CommonResponse {} 
+class DeleteFileResp extends CommonResponse {}
