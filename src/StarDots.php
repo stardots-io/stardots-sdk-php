@@ -2,8 +2,6 @@
 
 namespace StarDots;
 
-use StarDots\StarDotsTypes as Types;
-
 /**
  * StarDots PHP SDK
  * 
@@ -72,11 +70,11 @@ class StarDots
     /**
      * Get space list data
      * 
-     * @param Types\SpaceListReq $params Request parameters
-     * @return Types\SpaceListResp Response data
+     * @param SpaceListReq $params Request parameters
+     * @return SpaceListResp Response data
      * @throws StarDotsException
      */
-    public function getSpaceList(Types\SpaceListReq $params)
+    public function getSpaceList(SpaceListReq $params)
     {
         $query = http_build_query([
             'page' => $params->page,
@@ -84,67 +82,67 @@ class StarDots
         ]);
         $url = $this->endpoint . '/openapi/space/list?' . $query;
         $respArr = $this->sendRequest('GET', $url);
-        return $this->mapToType($respArr, Types\SpaceListResp::class);
+        return $this->mapToType($respArr, SpaceListResp::class);
     }
     
     /**
      * Create a new space
      * 
-     * @param Types\CreateSpaceReq $params Request parameters
-     * @return Types\CreateSpaceResp Response data
+     * @param CreateSpaceReq $params Request parameters
+     * @return CreateSpaceResp Response data
      * @throws StarDotsException
      */
-    public function createSpace(Types\CreateSpaceReq $params)
+    public function createSpace(CreateSpaceReq $params)
     {
         $url = $this->endpoint . '/openapi/space/create';
         $respArr = $this->sendRequest('PUT', $url, [
             'space' => $params->space,
             'public' => $params->public
         ]);
-        return $this->mapToType($respArr, Types\CreateSpaceResp::class);
+        return $this->mapToType($respArr, CreateSpaceResp::class);
     }
     
     /**
      * Delete an existing space
      * 
-     * @param Types\DeleteSpaceReq $params Request parameters
-     * @return Types\DeleteSpaceResp Response data
+     * @param DeleteSpaceReq $params Request parameters
+     * @return DeleteSpaceResp Response data
      * @throws StarDotsException
      */
-    public function deleteSpace(Types\DeleteSpaceReq $params)
+    public function deleteSpace(DeleteSpaceReq $params)
     {
         $url = $this->endpoint . '/openapi/space/delete';
         $respArr = $this->sendRequest('DELETE', $url, [
             'space' => $params->space
         ]);
-        return $this->mapToType($respArr, Types\DeleteSpaceResp::class);
+        return $this->mapToType($respArr, DeleteSpaceResp::class);
     }
     
     /**
      * Toggle the accessibility of a space
      * 
-     * @param Types\ToggleSpaceAccessibilityReq $params Request parameters
-     * @return Types\ToggleSpaceAccessibilityResp Response data
+     * @param ToggleSpaceAccessibilityReq $params Request parameters
+     * @return ToggleSpaceAccessibilityResp Response data
      * @throws StarDotsException
      */
-    public function toggleSpaceAccessibility(Types\ToggleSpaceAccessibilityReq $params)
+    public function toggleSpaceAccessibility(ToggleSpaceAccessibilityReq $params)
     {
         $url = $this->endpoint . '/openapi/space/accessibility/toggle';
         $respArr = $this->sendRequest('POST', $url, [
             'space' => $params->space,
             'public' => $params->public
         ]);
-        return $this->mapToType($respArr, Types\ToggleSpaceAccessibilityResp::class);
+        return $this->mapToType($respArr, ToggleSpaceAccessibilityResp::class);
     }
     
     /**
      * Get the list of files in the space
      * 
-     * @param Types\SpaceFileListReq $params Request parameters
-     * @return Types\SpaceFileListResp Response data
+     * @param SpaceFileListReq $params Request parameters
+     * @return SpaceFileListResp Response data
      * @throws StarDotsException
      */
-    public function getSpaceFileList(Types\SpaceFileListReq $params)
+    public function getSpaceFileList(SpaceFileListReq $params)
     {
         $query = http_build_query([
             'page' => $params->page,
@@ -153,34 +151,34 @@ class StarDots
         ]);
         $url = $this->endpoint . '/openapi/file/list?' . $query;
         $respArr = $this->sendRequest('GET', $url);
-        return $this->mapToType($respArr, Types\SpaceFileListResp::class);
+        return $this->mapToType($respArr, SpaceFileListResp::class);
     }
     
     /**
      * Get the access ticket for the file
      * 
-     * @param Types\FileAccessTicketReq $params Request parameters
-     * @return Types\FileAccessTicketResp Response data
+     * @param FileAccessTicketReq $params Request parameters
+     * @return FileAccessTicketResp Response data
      * @throws StarDotsException
      */
-    public function fileAccessTicket(Types\FileAccessTicketReq $params)
+    public function fileAccessTicket(FileAccessTicketReq $params)
     {
         $url = $this->endpoint . '/openapi/file/ticket';
         $respArr = $this->sendRequest('POST', $url, [
             'space' => $params->space,
             'filename' => $params->filename
         ]);
-        return $this->mapToType($respArr, Types\FileAccessTicketResp::class);
+        return $this->mapToType($respArr, FileAccessTicketResp::class);
     }
     
     /**
      * Upload file to the space
      * 
-     * @param Types\UploadFileReq $params Request parameters
-     * @return Types\UploadFileResp Response data
+     * @param UploadFileReq $params Request parameters
+     * @return UploadFileResp Response data
      * @throws StarDotsException
      */
-    public function uploadFile(Types\UploadFileReq $params)
+    public function uploadFile(UploadFileReq $params)
     {
         $url = $this->endpoint . '/openapi/file/upload';
         $respArr = $this->sendMultipartRequest('PUT', $url, [
@@ -188,24 +186,24 @@ class StarDots
             'filename' => $params->filename,
             'fileContent' => $params->fileContent
         ]);
-        return $this->mapToType($respArr, Types\UploadFileResp::class);
+        return $this->mapToType($respArr, UploadFileResp::class);
     }
     
     /**
      * Delete files in the space
      * 
-     * @param Types\DeleteFileReq $params Request parameters
-     * @return Types\DeleteFileResp Response data
+     * @param DeleteFileReq $params Request parameters
+     * @return DeleteFileResp Response data
      * @throws StarDotsException
      */
-    public function deleteFile(Types\DeleteFileReq $params)
+    public function deleteFile(DeleteFileReq $params)
     {
         $url = $this->endpoint . '/openapi/file/delete';
         $respArr = $this->sendRequest('DELETE', $url, [
             'space' => $params->space,
             'filenameList' => $params->filenameList
         ]);
-        return $this->mapToType($respArr, Types\DeleteFileResp::class);
+        return $this->mapToType($respArr, DeleteFileResp::class);
     }
     
     /**

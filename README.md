@@ -4,9 +4,8 @@
 
 # StarDots-SDK-PHP  
 
-[![Go](https://github.com/stardots-io/stardots-sdk-php/actions/workflows/go.yml/badge.svg)](https://github.com/stardots-io/stardots-sdk-php/actions/workflows/php.yml)
+[![PHP](https://github.com/stardots-io/stardots-sdk-php/actions/workflows/go.yml/badge.svg)](https://github.com/stardots-io/stardots-sdk-php/actions/workflows/php.yml)
 [![CodeQL](https://github.com/stardots-io/stardots-sdk-php/actions/workflows/codeql.yml/badge.svg)](https://github.com/stardots-io/stardots-sdk-php/actions/workflows/codeql.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/stardots-io/stardots-sdk-php)](https://goreportcard.com/report/github.com/stardots-io/stardots-sdk-php)
 [![codecov](https://codecov.io/github/stardots-io/stardots-sdk-php/graph/badge.svg?token=UNLOORRJHA)](https://codecov.io/github/stardots-io/stardots-sdk-php)
 [![LICENSE: MIT](https://img.shields.io/github/license/stardots-io/stardots-sdk-php.svg?style=flat)](LICENSE)  
 

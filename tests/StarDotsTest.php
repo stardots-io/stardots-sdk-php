@@ -4,14 +4,14 @@ namespace StarDots\Tests;
 
 use StarDots\StarDots;
 use StarDots\StarDotsException;
-use StarDots\StarDotsTypes\DeleteSpaceReq;
-use StarDots\StarDotsTypes\SpaceListReq;
-use StarDots\StarDotsTypes\CreateSpaceReq;
-use StarDots\StarDotsTypes\ToggleSpaceAccessibilityReq;
-use StarDots\StarDotsTypes\SpaceFileListReq;
-use StarDots\StarDotsTypes\FileAccessTicketReq;
-use StarDots\StarDotsTypes\UploadFileReq;
-use StarDots\StarDotsTypes\DeleteFileReq;
+use StarDots\DeleteSpaceReq;
+use StarDots\SpaceListReq;
+use StarDots\CreateSpaceReq;
+use StarDots\ToggleSpaceAccessibilityReq;
+use StarDots\SpaceFileListReq;
+use StarDots\FileAccessTicketReq;
+use StarDots\UploadFileReq;
+use StarDots\DeleteFileReq;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -228,7 +228,7 @@ class StarDotsTest extends TestCase
         try {
             $req = new DeleteFileReq();
             $req->space = $this->testSpaceName;
-            $req->filenameList = ['test-file.txt'];
+            $req->filenameList = array('test-file.txt');
             $response = $this->stardots->deleteFile($req);
             $this->assertIsArray($response);
         } catch (StarDotsException $e) {
